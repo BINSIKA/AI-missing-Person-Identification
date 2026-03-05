@@ -1,24 +1,98 @@
-# AI-missing-Person-Indentification
+A facial recognition web application that helps locate missing persons using AI-powered image search, GPS-based sightings logging, and a secure database system.
 
-AI Missing Person Identification System
-**Overview**
-       The AI Missing Person Identification System is a mission-driven technical solution designed to reunite families by leveraging modern technology for public safety. Built during my mini project, this full-stack application automates the search for missing individuals using real-time facial recognition. By combining a high-performance Python backend with a responsive, user-friendly interface, the system acts as a digital watchman that can be deployed on any camera-enabled device.
+** Overview**
+Every year, thousands of missing person cases go unresolved due to slow, manual identification processes. This project addresses that by building an automated AI system that can match facial features from camera feeds or uploaded images against a database of missing persons — enabling faster identification and real-time sightings tracking.
+
+**Features**
+
+       Face Recognition — Match uploaded photos or live camera input against a registered database of missing persons
+       GPS Sightings Logging — Record and track location-based sightings with timestamps
+       Secure SQLite Database — Efficient storage and retrieval of facial image data and case records
+       Web Interface — Clean Flask-based UI for searching, registering, and managing cases
+       Data Integrity — Structured database schema ensuring reliable and accurate image handling
+
+
+**Tech Stack**
+Language: Python 3.8+ 
+Face RecognitionOpenCV
+face_recognitionWeb
+Framework: Flask
+Database: SQLite
+Frontend: HTML, CSS, JavaScript
+
+**Project Structure**
+AI-missing-Person-Identification/
+│
+├── app.py                  # Main Flask application
+├── database/
+│   └── missing_persons.db  # SQLite database
+├── models/
+│   └── face_encoder.py     # Face encoding & matching logic
+├── static/
+│   ├── css/
+│   └── images/
+├── templates/
+│   ├── index.html          # Home page
+│   ├── register.html       # Register missing person
+│   └── search.html         # Search & identify
+├── utils/
+│   └── gps_logger.py       # GPS sightings logger
+└── requirements.txt
+
+**Getting Started**
+Prerequisites
+       Python 3.8+
+       pip
+**Installation**
+ Clone the repository
+       git clone: https://github.com/BINSIKA/AI-missing-Person-Indentification.git
+       cd AI-missing-Person-Indentification
+
+**Install dependencies**
+pip install -r requirements.txt
+
+**Run the application**
+python app.py
+
+**Usage**
+
+Open your browser and go to http://localhost:5000
+Register a missing person with their photo and details
+Search by uploading a photo or using the live camera
+View sightings log with GPS coordinates and timestamps
+
+
+**How It Works**
+
+Input Image / Camera Feed
+        ↓
+Face Detection (OpenCV)
+        ↓
+Face Encoding (128-d vector)
+        ↓
+Compare against Database
+        ↓
+Match Found? → Log Sighting + GPS
+        ↓
+Display Result on Web UI
+
+**Key Modules**
+
+Face Recognition Engine
+       Encodes facial features into 128-dimensional vectors
+       Uses Euclidean distance to compare and match faces
+       Handles multiple faces in a single image
+GPS Sightings Logger
+       Records location, date, and time for every confirmed sighting
+       Stores structured data in SQLite for fast querying
+Web Application
+       Register missing persons with name, age, last seen location, and photo
+       Search interface supports both image upload and webcam input
        
-**Why This Matters**
-Traditional search methods can be slow and fragmented. This system bridges that gap by providing:
-Instant Recognition: Instead of relying on manual photo comparisons, the AI scans and matches faces against a database in seconds
-.Precise Location Tracking: By capturing GPS coordinates (Latitude and Longitude) at the exact moment of a sighting, it gives families and authorities a concrete place to start their search.
-Immediate Alerts: Using the Twilio API, the system bypasses delays by sending an automated SMS to guardians the moment a high-confidence match is detected
+**Future Improvements**
 
-**Key Features & Tech StackFeatureImplementation**
-Real-Time ScanningUses OpenCV to process live video feeds every 2 seconds.
-Smart MatchingEmploys the face_recognition library to compare 128-D facial signatures with a 0.6 tolerance for high accuracy.
-Dynamic DatabaseManaged by SQLite, storing everything from physical descriptions to historical sighting logs.
-Cloud CommunicationIntegrated with Twilio to deliver real-time emergency notifications.
-Mapping IntegrationGenerates a Google Maps link in alerts to pinpoint the last seen location.
-
-**How the System WorksReporting:**
-A user registers a missing person by uploading their photo and physical details, which are converted into a unique facial encoding and stored in SQLite.
-Detection: When "Camera Search" is active, the browser's Geolocation API tracks the device's movement while the webcam looks for faces.
-Verification: The server receives image data via Base64, calculates the "distance" between the live face and the database, and identifies a match if the similarity is high enough.
-Action: Once a match is confirmed, the system saves the sighting image, logs the location, and sends an immediate SMS alert to the registered contact number.
+       Real-time CCTV integration
+        Mobile-responsive UI
+        Email/SMS alert system on match
+        Multi-face detection in crowd images
+        Cloud database integration
