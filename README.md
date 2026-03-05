@@ -14,30 +14,10 @@ Every year, thousands of missing person cases go unresolved due to slow, manual 
 
 **Tech Stack**
 Language: Python 3.8+ 
-Face RecognitionOpenCV
-face_recognitionWeb
-Framework: Flask
+Face Recognition OpenCV :face_recognition
+Web Framework: Flask
 Database: SQLite
 Frontend: HTML, CSS, JavaScript
-
-**Project Structure**
-AI-missing-Person-Identification/
-│
-├── app.py                  
-├── database/
-│   └── missing_persons.db  
-├── models/
-│   └── face_encoder.py     # Face encoding & matching logic
-├── static/
-│   ├── css/
-│   └── images/
-├── templates/
-│   ├── index.html          # Home page
-│   ├── register.html       # Register missing person
-│   └── search.html         # Search & identify
-├── utils/
-│   └── gps_logger.py       # GPS sightings logger
-└── requirements.txt
 
 **Getting Started**
 Prerequisites
