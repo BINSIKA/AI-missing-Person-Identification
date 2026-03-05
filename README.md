@@ -23,9 +23,9 @@ Frontend: HTML, CSS, JavaScript
 **Project Structure**
 AI-missing-Person-Identification/
 │
-├── app.py                  # Main Flask application
+├── app.py                  
 ├── database/
-│   └── missing_persons.db  # SQLite database
+│   └── missing_persons.db  
 ├── models/
 │   └── face_encoder.py     # Face encoding & matching logic
 ├── static/
