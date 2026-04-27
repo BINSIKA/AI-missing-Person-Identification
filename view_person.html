@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1 class="neon-text">{{ person.name }}'s Record</h1>
+
+    <div class="person-details-view">
+        
+        <div class="image-area">
+            {% if person.image_filename %}
+                <img src="{{ url_for('static', filename=person.image_filename) }}" 
+                    alt="Image of {{ person.name }}" class="result-image">
+            {% else %}
+                <p>Image not available.</p>
+            {% endif %}
+        </div>
+
+        <div class="info-area">
+            <h2>Detailed Information</h2>
+            <p><strong>Database ID:</strong> {{ person.id }}</p>
+            <p><strong>Name:</strong> {{ person.name }}</p>
+            <p><strong>Age:</strong> {{ person.age or 'N/A' }}</p>
+            <p><strong>Gender:</strong> {{ person.gender or 'N/A' }}</p>
+            <p><strong>Height (cm):</strong> {{ person.height or 'N/A' }}</p>
+            <p><strong>Weight (kg):</strong> {{ person.weight or 'N/A' }}</p>
+            
+            <a href="{{ url_for('view_all') }}" class="neon-link" style="margin-top: 20px;">← Back to All Records</a>
+        </div>
+    </div>
+{% endblock %}

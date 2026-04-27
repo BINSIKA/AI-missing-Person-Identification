@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="neon-text">SEARCH PERSON BY IMAGE</h1>
+<form action="{{ url_for('search_person') }}" method="POST" enctype="multipart/form-data" class="search-form text-center">
+    <input type="file" name="search_image" class="neon-input" required><br><br>
+    <button type="submit" class="neon-button">ANALYZE IMAGE</button>
+</form>
+<br>
+<a href="{{ url_for('index') }}" class="back-link">BACK TO HOME</a>
+{% endblock %}

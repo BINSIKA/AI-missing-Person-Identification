@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="neon-text">ALL MISSING PERSONS</h1>
+<div class="person-list">
+    {% for person in persons %}
+        <div class="person-card">
+            <img src="{{ url_for('static', filename='uploads/' + person.image_filename) }}" class="person-image">
+            <div class="person-details">
+                <p><strong>Name:</strong> {{ person.name }}</p>
+                <p><strong>Age:</strong> {{ person.age }} | <strong>Gender:</strong> {{ person.gender }}</p>
+                <p><strong>Height:</strong> {{ person.height }} | <strong>Weight:</strong> {{ person.weight }}</p>
+                <p><strong>Phone:</strong> {{ person.phone }}</p>
+                <p><strong>Email:</strong> {{ person.email }}</p>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+<br>
+<a href="{{ url_for('index') }}" class="back-link">Back to Home</a>
+{% endblock %}

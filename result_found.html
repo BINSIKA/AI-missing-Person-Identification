@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Person Found</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/neon.css') }}">
+</head>
+
+<body>
+<div class="container">
+<h1 class="neon-text success-text">
+    {% if sighting_id %}🚨 LIVE SIGHTING MATCH! 🚨
+    {% else %}✔️ PERSON FOUND!
+    {% endif %}
+</h1>
+
+    <div class="person-info">
+        
+        <p><strong>Name:</strong> {{ person.get('name') }}</p>
+        <p><strong>Age:</strong> {{ person.get('age') }}</p>
+        <p><strong>Gender:</strong> {{ person.get('gender') }}</p>
+        <p><strong>Height:</strong> {{ person.get('height') }}</p>
+        <p><strong>Weight:</strong> {{ person.get('weight') }}</p>
+        <p><strong>Contact Phone:</strong> {{ person.get('phone') }}</p> 
+
+        <p><strong>Match Score:</strong> {{ match_score }}</p>
+
+        {% if sighting_id %}
+            <hr class="neon-hr">
+            <h2 class="neon-subtext">Sighting Details</h2>
+            <p><strong>Sighting ID:</strong> {{ sighting_id }}</p>
+            
+            {% if latitude and longitude %}
+                <p><strong>Latitude:</strong> {{ latitude }}</p>
+                <p><strong>Longitude:</strong> {{ longitude }}</p>
+                <a href="http://maps.google.com/?q={{ latitude }},{{ longitude }}" 
+                   target="_blank" class="neon-link">View Sighting Location</a>
+            {% else %}
+                <p class="error-text">No GPS data recorded.</p>
+            {% endif %}
+
+            <h2 class="neon-subtext" style="margin-top:15px;">Notification Status</h2>
+            <p class="{% if 'successfully' in sms_status %}success-text{% else %}neon-subtext{% endif %}">
+                {{ sms_status }}
+            </p>
+            
+            <img src="{{ url_for('static', filename='sightings/' + sighting_image) }}"
+                alt="Sighting Image" class="result-image">
+        
+        {% else %}
+            <img src="{{ url_for('static', filename='uploads/' + person.get('image_filename')) }}"
+                alt="Person Image" class="result-image">
+        {% endif %}
+
+    </div>
+
+    <div class="link-group">
+        {% if sighting_id %}
+        <a href="{{ url_for('camera_search') }}" class="neon-link">🔄 Continue Camera Scan</a>
+        {% else %}
+        <a href="{{ url_for('search_person') }}" class="neon-link">🔍 Search Again</a>
+        {% endif %}
+        <a href="{{ url_for('index') }}" class="neon-link">🏠 Home</a>
+    </div>
+</div>
+
+<audio id="alertSound" src="{{ url_for('static', filename='audio/alert.mp3') }}" preload="auto"></audio>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const sound = document.getElementById('alertSound');
+
+    // Check if sighting_id is present (either via URL or Jinja variable)
+    const urlParams = new URLSearchParams(window.location.search);
+    // The || "{{ sighting_id }}" part is crucial if the ID is only passed via Jinja context
+    const isLiveSighting = urlParams.has('sighting_id') || "{{ sighting_id }}";
+
+    if (isLiveSighting && sound) {
+        // Step 1: Mute the sound element
+        sound.muted = true;
+        
+        // Step 2: Attempt to play the muted sound. This is often successful.
+        sound.play()
+            .then(() => {
+                // If the muted sound successfully started (the audio context is now 'unlocked'):
+                
+                // Step 3: Stop, rewind, and unmute the sound
+                sound.pause(); 
+                sound.currentTime = 0; // Rewind to the start of the audio file
+                sound.muted = false; // Unmute it
+
+                // Step 4: Play the unmuted sound
+                sound.play().catch(error => {
+                    console.warn("Autoplay was unlocked but unmuted replay failed:", error);
+                });
+            })
+            .catch(error => {
+                // This catches the initial block if even muted autoplay failed
+                console.warn("Automatic playback blocked by browser:", error);
+            });
+    }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="neon-text">REGISTER MISSING PERSON</h1>
+<form action="{{ url_for('upload_person') }}" method="POST" enctype="multipart/form-data" class="upload-form">
+    <div class="form-columns">
+        <div class="column">
+            <input type="text" name="name" placeholder="Enter Name" class="neon-input" required>
+            <input type="number" name="age" placeholder="Enter Age" class="neon-input" required>
+            <input type="text" name="gender" placeholder="Gender" class="neon-input" required>
+            <input type="text" name="height" placeholder="Height (in cm)" class="neon-input" required>
+        </div>
+        <div class="column">
+            <input type="text" name="weight" placeholder="Weight (in kg)" class="neon-input" required>
+            <input type="tel" name="phone" placeholder="Guardian Phone No." class="neon-input" required>
+            <input type="email" name="email" placeholder="Guardian Email Address" class="neon-input" required>
+        </div>
+    </div>
+    <input type="file" name="image" class="neon-input" required style="width: 100%; margin-top: 15px;">
+    <button type="submit" class="neon-button mt-4">UPLOAD DATA</button>
+</form>
+<br>
+<a href="{{ url_for('index') }}" class="back-link">BACK TO HOME</a>
+{% endblock %}
