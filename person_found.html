@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="success-text text-center">🚨 PERSON FOUND! 🚨</h1>
+<p class="text-center" style="color:#00f2ff;">Confidence: {{ match_score }}</p>
+
+<div class="result-box">
+    <img src="{{ url_for('static', filename='uploads/' + person.image_filename) }}" class="result-image">
+    <div class="person-details">
+        <p><strong>Name:</strong> {{ person.name }}</p>
+        <p><strong>Age:</strong> {{ person.age }}</p>
+        <p><strong>Gender:</strong> {{ person.gender }}</p>
+        <p><strong>Guardian Phone:</strong> {{ person.phone }}</p>
+        <p><strong>Guardian Email:</strong> {{ person.email }}</p>
+        <p class="success-text" style="margin-top: 15px;">✔️ Email Alert (with Photo & Location) Sent Successfully!</p>
+    </div>
+</div>
+
+<div class="text-center mt-4">
+    <a href="{{ url_for('search_person') }}" class="neon-button">Search Another</a>
+    <a href="{{ url_for('index') }}" class="back-link">Home</a>
+</div>
+{% endblock %}

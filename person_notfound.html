@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="error-text text-center">❌ NO MATCH FOUND</h1>
+<p class="text-center" style="color: #fff;">The system could not identify this person in the missing records database.</p>
+<div class="text-center mt-4">
+    <a href="{{ url_for('search_person') }}" class="neon-button">TRY AGAIN</a>
+    <a href="{{ url_for('index') }}" class="back-link">HOME</a>
+</div>
+{% endblock %}

@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binsika PD | Data Analyst Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables for easy theming */
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #3498db;
+            --bg-light: #f4f4f4;
+            --text-dark: #333;
+            --text-light: #666;
+            --white: #ffffff;
+        }
+
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--accent-color);
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: var(--primary-color);
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* Header / Navbar */
+        header {
+            background: var(--primary-color);
+            color: var(--white);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 0 20px;
+            overflow: hidden;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h1 {
+            font-size: 1.5rem;
+        }
+
+        .nav-links li {
+            display: inline;
+            margin-left: 20px;
+        }
+
+        .nav-links a {
+            color: var(--white);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 80vh;
+            background: linear-gradient(rgba(44, 62, 80, 0.9), rgba(44, 62, 80, 0.8)), url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: var(--white);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            max-width: 700px;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--accent-color);
+            color: var(--white);
+            padding: 10px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .btn:hover {
+            background: #2980b9;
+        }
+
+        /* Section Styling */
+        section {
+            padding: 60px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2rem;
+            color: var(--primary-color);
+            text-transform: uppercase;
+        }
+
+        /* About Section */
+        #about {
+            background: var(--white);
+            text-align: center;
+        }
+        #about p {
+            max-width: 800px;
+            margin: auto;
+            color: var(--text-light);
+        }
+
+        /* Skills Section */
+        #skills {
+            background: var(--bg-light);
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .skill-card {
+            background: var(--white);
+            padding: 20px;
+            text-align: center;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .skill-card h3 {
+            margin-bottom: 10px;
+            color: var(--accent-color);
+        }
+
+        /* Projects Section */
+        #projects {
+            background: var(--white);
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .project-card {
+            background: var(--bg-light);
+            padding: 20px;
+            border-radius: 5px;
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .project-card h3 {
+            margin-bottom: 10px;
+        }
+
+        .project-tech {
+            font-size: 0.9rem;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        /* Experience Section */
+        #experience {
+            background: var(--bg-light);
+        }
+
+        .timeline-item {
+            background: var(--white);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 5px solid var(--accent-color);
+            border-radius: 3px;
+        }
+
+        .timeline-date {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        /* Contact/Footer */
+        footer {
+            background: var(--primary-color);
+            color: var(--white);
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .social-links a {
+            color: var(--white);
+            margin: 0 10px;
+            font-size: 1.2rem;
+        }
+
+        /* Media Queries for Mobile */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .hero p { font-size: 1rem; }
+            .navbar { flex-direction: column; }
+            .nav-links { margin-top: 15px; }
+            .nav-links li { margin: 0 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container navbar">
+            <h1>BINSIKA PD</h1>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Turning Numbers into Stories</h1> <p>Data Analyst | Python | SQL | Power BI</p> <a href="#projects" class="btn">View My Work</a>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <p>
+                I am a Data Analyst with a passion for turning numbers into stories. 
+                Skilled in Python, SQL, Advanced Excel, and Power BI, I have hands-on experience in data cleaning, 
+                visualization, and building interactive dashboards. I am adept at transforming raw data into 
+                actionable insights that support accurate, efficient, and data-driven business decisions.
+            </p>
+        </div>
+    </section>
+
+    <section id="skills">
+        <div class="container">
+            <h2 class="section-title">Technical Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <h3>Programming</h3>
+                    <p>Python, C</p>
+                </div>
+                <div class="skill-card">
+                    <h3>Databases</h3>
+                    <p>SQL</p>
+                </div>
+                <div class="skill-card">
+                    <h3>Tools</h3>
+                    <p>Power BI, Excel, Tableau</p>
+                </div>
+                <div class="skill-card">
+                    <h3>Libraries</h3>
+                    <p>Pandas, NumPy, Matplotlib</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <div class="container">
+            <h2 class="section-title">Featured Projects</h2>
+            <div class="project-grid">
+                
+                <div class="project-card">
+                    <h3>AI Missing Person Identification</h3>
+                    <div class="project-tech">Python, SQLite, Facial Recognition</div>
+                    <p>Built a facial recognition web app to locate missing persons, with camera/image search and GPS-based sightings logging.</p>
+                    <br>
+                    <a href="https://github.com/BINSIKA/Al-missing-Person-Indentification.git" target="_blank">View on GitHub &rarr;</a>
+                </div>
+
+                <div class="project-card">
+                    <h3>Spotify Time Series Analysis</h3>
+                    <div class="project-tech">Python, ARIMA, Pandas</div>
+                    <p>Analyzed Spotify Song Popularity Trends using ARIMA Time Series Forecasting, data preprocessing, and visualization.</p>
+                    <br>
+                    <a href="https://github.com/BINSIKA/Time-Series-Analysis-of-Spotify-Songs.git" target="_blank">View on GitHub &rarr;</a>
+                </div>
+
+                <div class="project-card">
+                    <h3>Blinkit Grocery Data Analysis</h3>
+                    <div class="project-tech">Python, Data Visualization</div>
+                    <p>Analyzed Blinkit Grocery Dataset to generate insights on Sales Trends, Item Performance, and Outlet Distribution.</p>
+                    <br>
+                    <a href="https://github.com/BINSIKA/blinkit_grocery-dataset-analysis.git" target="_blank">View on GitHub &rarr;</a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="experience">
+        <div class="container">
+            <h2 class="section-title">Experience</h2>
+            
+            <div class="timeline-item">
+                <h3>Data Science Intern | SkillCraft Technology</h3>
+                <span class="timeline-date">Remote | Sep 2025</span>
+                <ul>
+                    <li>Executed four end-to-end Data Science projects in Python.</li>
+                    <li>Projects included India Population Distribution, Titanic Survival Prediction, and Customer Purchase Prediction.</li>
+                </ul>
+            </div>
+
+            <div class="timeline-item">
+                <h3>Python Developer | Hexcent Private Limited</h3>
+                <span class="timeline-date">Kochi, Kerala | July 2024</span>
+                <ul>
+                    <li>Created a Python flower shop app with a simple cart system.</li>
+                    <li>Enabled users to browse products and checkout with interactive console feedback.</li>
+                </ul>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="education" style="background: white;">
+        <div class="container">
+            <h2 class="section-title">Education</h2>
+            <div style="text-align: center;">
+                <h3>B. Tech Artificial Intelligence & Data Science</h3>
+                <p>St. Xavier's Catholic College of Engineering | 2022-2026</p>
+                <p><strong>CGPA:</strong> 8.32/10</p>
+                <br>
+                <h3>Higher Secondary Certificate (HSC)</h3>
+                <p>Holy Angel's Matric Hr.Sec. School | 2020-2022</p>
+                <p><strong>Scored:</strong> 89%</p>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="container">
+            <h2>Get In Touch</h2>
+            <p>Nagercoil, Tamil Nadu</p>
+            <p>Email: <a href="mailto:binsiika26@gmail.com" style="color: #3498db;">binsiika26@gmail.com</a></p>
+            <p>Phone: +91 9037631269</p>
+            <br>
+            <div class="social-links">
+                <a href="http://www.linkedin.com/in/binsika" target="_blank">LinkedIn</a>
+                <a href="https://github.com/BINSIKA" target="_blank">GitHub</a>
+            </div>
+            <br>
+            <p>&copy; 2026 Binsika PD. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

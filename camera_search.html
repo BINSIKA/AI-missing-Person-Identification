@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="neon-text text-center">LIVE CAMERA DETECTION</h2>
+    <p class="text-info text-center" style="color: #45a29e;">System is monitoring the DroidCam/Webcam feed in real-time...</p>
+
+    <div class="camera-container" style="position: relative; text-align: center; margin-top: 20px;">
+        <!-- Live Camera Feed -->
+        <video id="video" width="100%" height="auto" autoplay class="border-cyan" style="border: 3px solid #66fcf1; border-radius: 8px; box-shadow: 0 0 15px #66fcf1; max-width: 640px;"></video>
+        
+        <!-- Status Overlay -->
+        <div id="status-overlay" style="position: absolute; top: 10px; left: 10px; display: flex; gap: 10px;">
+            <span class="badge pulse" style="background: #ffcc00; color: #000; padding: 5px 10px; border-radius: 4px; font-weight: bold;">Scanning...</span>
+            <span id="coords" class="badge" style="background: #1f2833; color: #66fcf1; padding: 5px 10px; border-radius: 4px; border: 1px solid #66fcf1;">Lat: --, Lng: --</span>
+        </div>
+    </div>
+
+    <!-- Hidden Canvas for Frame Capture -->
+    <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
+
+    <!-- Match Popup (Hidden by default) -->
+    <div id="match-popup" class="alert-match mt-4" style="display:none; background: rgba(255, 0, 60, 0.1); border: 2px solid #ff003c; padding: 20px; text-align: center; border-radius: 10px; margin-top: 20px;">
+        <h3 class="error-text" style="color: #ff003c; text-shadow: 0 0 10px #ff003c;">⚠️ MISSING PERSON IDENTIFIED! ⚠️</h3>
+        <p style="color: #c5c6c7;">A match has been found. <b>An Email containing the photo and live location has been dispatched to the Guardian.</b></p>
+        <h4 id="match-name" class="mt-2 text-white" style="color: #fff; font-size: 24px;"></h4>
+        <p id="match-coords" style="color: #66fcf1; font-weight: bold;"></p>
+        <a id="match-link" href="#" class="neon-button" style="margin-top: 15px;">VIEW REGISTRY</a>
+    </div>
+
+    <!-- Audio file for Alarm -->
+    <audio id="alertSound" src="{{ url_for('static', filename='audio/alert.mp3') }}" preload="auto"></audio>
+    
+    <div style="text-align: center; margin-top: 30px;">
+        <a href="{{ url_for('index') }}" class="back-link" style="color: #45a29e; text-decoration: none;">BACK TO HOME</a>
+    </div>
+</div>
+
+<script>
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const alertSound = document.getElementById('alertSound');
+    const matchPopup = document.getElementById('match-popup');
+    const matchNameText = document.getElementById('match-name');
+    const matchLink = document.getElementById('match-link');
+    const coordsBadge = document.getElementById('coords');
+    const matchCoords = document.getElementById('match-coords');
+
+    // Connect to DroidCam / Webcam
+    navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+        .then(stream => { 
+            video.srcObject = stream; 
+        })
+        .catch(err => { 
+            console.error("Camera access denied or device missing:", err); 
+            alert("Could not access the camera.");
+        });
+
+    function processFrame() {
+        if (matchPopup.style.display === 'block') { return; }
+
+        const context = canvas.getContext('2d');
+        context.drawImage(video, 0, 0, 640, 480);
+        const imageData = canvas.toDataURL('image/jpeg');
+
+        // Fetch live GPS location
+        navigator.geolocation.getCurrentPosition((position) => {
+            const lat = position.coords.latitude.toFixed(5);
+            const lng = position.coords.longitude.toFixed(5);
+            coordsBadge.innerText = `Lat: ${lat}, Lng: ${lng}`;
+
+            fetch('/camera_search', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `image_data=${encodeURIComponent(imageData)}&latitude=${lat}&longitude=${lng}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'match_found') {
+                    alertSound.play().catch(e => console.log("Audio blocked."));
+                    matchNameText.innerText = "MATCH: " + data.name;
+                    matchLink.href = data.redirect_url;
+                    matchCoords.innerText = `Location: Lat ${lat}, Lng ${lng}`;
+                    matchPopup.style.display = 'block';
+                } else {
+                    setTimeout(processFrame, 2000);
+                }
+            }).catch(err => setTimeout(processFrame, 2000));
+        }, (err) => {
+            coordsBadge.innerText = "Lat: N/A, Lng: N/A";
+            fetch('/camera_search', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `image_data=${encodeURIComponent(imageData)}&latitude=0&longitude=0`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'match_found') {
+                    alertSound.play();
+                    matchNameText.innerText = "MATCH: " + data.name;
+                    matchLink.href = data.redirect_url;
+                    matchCoords.innerText = `Location: Unknown (GPS Denied)`;
+                    matchPopup.style.display = 'block';
+                } else {
+                    setTimeout(processFrame, 2000);
+                }
+            });
+        });
+    }
+    setTimeout(processFrame, 3000);
+</script>
+{% endblock %}

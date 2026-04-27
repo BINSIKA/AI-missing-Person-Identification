@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Camera Search</title>
+<script defer src="{{ url_for('static', filename='js/face-api.js') }}"></script>
+<style>
+  video { border: 2px solid black; }
+  canvas { position: absolute; top: 0; left: 0; }
+</style>
+</head>
+<body>
+<h2>Camera Search</h2>
+<p id="status">Loading models...</p>
+<video id="video" width="640" height="480" autoplay muted></video>
+
+<script>
+async function startCamera() {
+    const video = document.getElementById('video');
+    const status = document.getElementById('status');
+
+    // 1️⃣ Load models from /static/models
+    await faceapi.nets.tinyFaceDetector.loadFromUri('/static/models');
+    await faceapi.nets.faceLandmark68Net.loadFromUri('/static/models');
+    await faceapi.nets.faceRecognitionNet.loadFromUri('/static/models');
+
+    status.innerText = 'Models loaded. Starting camera...';
+
+    // 2️⃣ Open the camera
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: {} });
+        video.srcObject = stream;
+    } catch (err) {
+        status.innerText = 'Error opening camera: ' + err;
+        return;
+    }
+
+    // 3️⃣ Create canvas overlay for face boxes
+    const canvas = faceapi.createCanvasFromMedia(video);
+    document.body.append(canvas);
+    const displaySize = { width: video.width, height: video.height };
+    faceapi.matchDimensions(canvas, displaySize);
+
+    // 4️⃣ Detect faces continuously
+    video.addEventListener('play', () => {
+        setInterval(async () => {
+            const detections = await faceapi.detectAllFaces(
+                video,
+                new faceapi.TinyFaceDetectorOptions()
+            ).withFaceLandmarks().withFaceDescriptors();
+
+            canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+            const resizedDetections = faceapi.resizeResults(detections, displaySize);
+
+            faceapi.draw.drawDetections(canvas, resizedDetections);
+            faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
+
+            if (detections.length > 0) {
+                // 5️⃣ Send first face descriptor to Flask
+                const descriptor = detections[0].descriptor;
+                fetch('/realtime_search', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ face_encoding: Array.from(descriptor) })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.match) {
+                        status.innerText = `Detected: ${data.person.name} (${data.match_score})`;
+                    } else {
+                        status.innerText = 'No match found';
+                    }
+                });
+            } else {
+                status.innerText = 'No face detected';
+            }
+        }, 1000);
+    });
+}
+
+// Start camera automatically
+startCamera();
+</script>
+</body>
+</html>

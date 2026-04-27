@@ -1,0 +1,181 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Orbitron', sans-serif;
+}
+
+body {
+    background-color: #000;
+    color: #0ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
+}
+
+.container {
+    padding: 20px;
+}
+
+h1.neon-text {
+    font-size: 3rem;
+    text-transform: uppercase;
+    color: #0ff;
+    text-shadow: 0 0 3px #0ff, 0 0 6px #0ff;
+    margin-bottom: 30px;
+}
+
+h1.success-text {
+    color: #0f0;
+    text-shadow: 0 0 3px #0f0, 0 0 6px #0f0;
+}
+
+h1.error-text {
+    color: #f00;
+    text-shadow: 0 0 3px #f00, 0 0 6px #f00;
+}
+
+.neon-subtext {
+    font-size: 1.5rem;
+    color: #0ff;
+    margin-bottom: 20px;
+}
+
+.neon-input {
+    display: block;
+    width: 300px;
+    margin: 8px auto;   /* Reduced margin */
+    padding: 10px;
+    border: 2px solid #0ff;
+    background: #000;
+    color: #0ff;
+    text-align: center;
+    border-radius: 10px;
+    font-size: 1rem;
+    box-shadow: 0 0 10px #0ff;
+}
+
+.input-row {
+    display: flex;
+    justify-content: center;
+    gap: 30px; /* Space between inputs */
+    margin-bottom: 15px;
+}
+
+.neon-input {
+    flex: 1; /* Inputs will have equal width */
+    max-width: 400px;
+}
+
+.form-columns {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.neon-button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    color: #0ff;
+    background: none;
+    border: 2px solid #0ff;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 1.2rem;
+    box-shadow: 0 0 10px #0ff;
+    cursor: pointer;
+}
+
+.back-link {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    color: purple;
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+.neon-button {
+    display: inline-block;
+    background-color: #000;
+    color: #0ff;
+    padding: 15px 30px;
+    margin: 15px;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    border: 2px solid #0ff;
+    border-radius: 10px;
+    text-decoration: none;
+    box-shadow: 0 0 20px #0ff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.neon-button:hover {
+    background-color: #0ff;
+    color: #000;
+}
+
+.back-link, .neon-link {
+    display: inline-block;
+    color: purple;
+    text-decoration: none;
+    font-size: 1.2rem;
+    margin-top: 20px;
+}
+
+.back-link:hover, .neon-link:hover {
+    text-decoration: underline;
+}
+
+.person-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.person-card {
+    background: #111;
+    border: 2px solid #0ff;
+    border-radius: 15px;
+    margin: 15px;
+    padding: 15px;
+    width: 300px;
+    text-align: left;
+    box-shadow: 0 0 20px #0ff;
+    display: flex;
+}
+
+.person-image {
+    max-width: 100px;
+    border-radius: 10px;
+    margin-right: 15px;
+}
+
+.person-details {
+    color: #0ff;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.result-image {
+    max-width: 300px;
+    border-radius: 15px;
+    margin-top: 20px;
+    box-shadow: 0 0 20px #0ff;
+}

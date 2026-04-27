@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2 class="h2-neon">All Records</h2>
+    {% if people %}
+        <div style="margin-top: 20px;">
+            {% for person in people %}
+                <div class="card-person">
+                    {% if person.image_filename %}
+                        <img src="{{ url_for('static', filename=person.image_filename) }}" alt="Person Image of {{ person.name }}">
+                    {% else %}
+                        <img src="{{ url_for('static', filename='dataset/default_person.png') }}" alt="No Image">
+                    {% endif %}
+                    <div class="details">
+                        <p><strong>Name:</strong> {{ person.name }}</p>
+                        <p class="meta">
+                            <strong>Age:</strong> {{ person.age or 'N/A' }} | 
+                            <strong>Gender:</strong> {{ person.gender or 'N/A' }} | 
+                            <strong>Height:</strong> {{ person.height or 'N/A' }} | 
+                            <strong>Weight:</strong> {{ person.weight or 'N/A' }}|
+                            <strong>Phone:</strong> {{ person.phone or 'N/A' }}
+
+                        </p>
+                        <a href="{{ url_for('view_person', pid=person.id) }}" class="btn-neon" style="margin-top: 5px; padding: 8px 16px; font-size: 14px;">View Details</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="small-muted">No persons have been reported yet.</p>
+    {% endif %}
+    <a href="{{ url_for('index') }}" class="btn-neon">Back to Home</a>
+{% endblock %}
